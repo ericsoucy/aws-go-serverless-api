@@ -11,6 +11,10 @@ import (
 "github.com/aws/aws-sdk-go/service/dynamodb/dynamodbiface"
 )
 
+var (
+	dynaClient dynamodbiface.DynamoDBAPI
+)
+
 func main() {
 	region := os.Getenv("AWS_REGION")
 	awsSession, err := session.NewSession(&aws.Config{
