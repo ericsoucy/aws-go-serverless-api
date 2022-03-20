@@ -2,6 +2,14 @@
 
 Based on <https://www.youtube.com/watch?v=zHcef4eHOc8&t=20s>
 
+## GoLang
+
+```bash
+go mod init github.com/ericsoucy/aws-go-serverless-api
+...
+go mod tidy
+```
+
 ## Running localstack
 
 ```bash

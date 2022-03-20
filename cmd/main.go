@@ -8,6 +8,7 @@ import (
 "github.com/aws/aws-sdk-go/aws"
 "github.com/aws/aws-sdk-go/aws/session"
 "github.com/aws/aws-sdk-go/service/dynamodb"
+"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbiface"
 )
 
 func main() {
@@ -26,6 +27,14 @@ const tableName = "LmbdaInGoUser"
 func handler(req events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
   switch req.HTTPMethod {
 	  case "GET":
-		return handlers.GetUser
+		return handlers.GetUser(req, tableName, dynaClient)
+	  case "POST":
+		return handlers.CreateUser(req, tableName, dynaClient)
+	  case "PUT":
+		return handlers.UpdateUser(req, tableName, dynaClient)
+	  case "DELETE":
+		return handlers.DeleteUser(req, tableName, dynaClient)
   }
+  default:
+	return handlers.UnhandleMethod()
 }
