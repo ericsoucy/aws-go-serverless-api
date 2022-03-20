@@ -26,7 +26,7 @@ func main() {
 	lambda.Start(handler)
 }
 
-const tableName = "LmbdaInGoUser"
+const tableName = "LambdaInGoUser"
 
 func handler(req events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
   switch req.HTTPMethod {
