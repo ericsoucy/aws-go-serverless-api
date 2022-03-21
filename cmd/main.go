@@ -22,7 +22,7 @@ func main() {
 	if err!=nil {
 		return
 	}
-	dynaClient := dynamodb.NewClient(awsSession)
+	dynaClient := dynamodb.New(awsSession)
 	lambda.Start(handler)
 }
 
@@ -38,7 +38,7 @@ func handler(req events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse
 		return handlers.UpdateUser(req, tableName, dynaClient)
 	  case "DELETE":
 		return handlers.DeleteUser(req, tableName, dynaClient)
-  }
-  default:
-	return handlers.UnhandledMethod()
+      default:
+	    return handlers.UnhandledMethod()
+	}
 }
