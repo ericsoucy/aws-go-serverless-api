@@ -34,3 +34,4 @@ build/
 /infra-as-code/.terraform/providers/registry.terraform.io/hashicorp/aws/4.3.0/linux_amd64/terraform-provider-aws_v4.3.0_x5
 /infra-as-code/terraform.tfstate
 /infra-as-code/terraform.tfstate.backup
+infra-as-code/.terraform/providers/registry.terraform.io/hashicorp/aws/4.6.0/linux_amd64/terraform-provider-aws_v4.6.0_x5

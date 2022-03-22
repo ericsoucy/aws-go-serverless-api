@@ -1,37 +1,30 @@
-variable "JAR_PATH" {
+variable "ZIP_PATH" {
   type    = string
-  default = "../target/function-sample-aws-4.0.0.RELEASE-aws.jar"
+  default = "../build/main.zip"
 }
 
 resource "aws_iam_role" "lambda-execution-role" {
   name = "lambda-execution-role"
 
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "lambda.amazonaws.com"
-      },
-      "Effect": "Allow",
-      "Sid": ""
-    }
-  ]
-}
-EOF
+  assume_role_policy = file("assume_role_policy.json")
 }
 
-resource "aws_lambda_function" "sampleLambdaFunction" {
-  filename      = var.JAR_PATH
-  function_name = "Uppercase"
+resource "aws_iam_role_policy" "lambda_policy" {
+  name = "lambda_policy"
+  role = aws_iam_role.lambda-execution-role.id
+
+  policy = file("policy.json")
+}
+
+resource "aws_lambda_function" "goLambdaFunction" {
+  filename      = var.ZIP_PATH
+  function_name = "go-serverless-api"
   role          = aws_iam_role.lambda-execution-role.arn
-  handler       = "org.springframework.cloud.function.adapter.aws.FunctionInvoker"
-  runtime       = "java11"
-  timeout       = 30
-  source_code_hash = filebase64sha256(var.JAR_PATH)
-  memory_size = 1024
+  handler       = "main"
+  runtime       = "go1.x"
+  #timeout       = 30
+  #source_code_hash = filebase64sha256(var.JAR_PATH)
+  #memory_size = 1024
 
 }
 

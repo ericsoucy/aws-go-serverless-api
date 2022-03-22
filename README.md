@@ -8,7 +8,16 @@ Based on <https://www.youtube.com/watch?v=zHcef4eHOc8&t=20s>
 go mod init github.com/ericsoucy/aws-go-serverless-api
 ...
 go mod tidy
+
+go build -v main.go
+cp main ./build
 ```
+
+```bash
+// prepare zip file
+zip -jrm build/main.zip build/main
+```
+
 
 ## Running localstack
 
