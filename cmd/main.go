@@ -22,7 +22,7 @@ func main() {
 	if err!=nil {
 		return
 	}
-	dynaClient := dynamodb.New(awsSession)
+	dynaClient = dynamodb.New(awsSession)
 	lambda.Start(handler)
 }
 
