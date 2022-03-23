@@ -48,4 +48,21 @@ terraform plan
 terraform apply -auto-approve
 
 aws --endpoint-url=http://localhost:4566 lambda list-functions --profile local
+
+aws --endpoint-url=http://localhost:4566 apigateway get-rest-apis --profile local
+
+aws --endpoint-url=http://localhost:4566 apigateway get-rest-api --rest-api-id ns241xb2xd --profile local
+
+aws --endpoint-url=http://localhost:4566 apigateway get-deployments --rest-api-id ns241xb2xd --profile local
+
+aws --endpoint-url=http://localhost:4566 apigateway get-deployment --rest-api-id ns241xb2xd --deployment-id rs7pmohpi0 --profile local
+
+//***
+aws --endpoint-url=http://localhost:4566 apigateway get-resources --rest-api-id ns241xb2xd --profile local
+
+
+curl -vvvv http://localhost:4566/restapis/ns241xb2xd/test/_user_request_/
+
+curl -vvvv --header "Content-Type: application/json" --request POST --data '{"email": "totot@toto.com", "firstName": "toto", "lastName":"toto"}' http://localhost:4566/restapis/ns241xb2xd/test/_user_request_/
+
 ```
