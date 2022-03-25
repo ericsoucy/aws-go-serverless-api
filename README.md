@@ -65,4 +65,15 @@ curl -vvvv http://localhost:4566/restapis/ns241xb2xd/test/_user_request_/
 
 curl -vvvv --header "Content-Type: application/json" --request POST --data '{"email": "totot@toto.com", "firstName": "toto", "lastName":"toto"}' http://localhost:4566/restapis/ns241xb2xd/test/_user_request_/
 
+//dynamodb
+aws dynamodb list-tables --endpoint-url=http://localhost:4566 --profile local
+aws dynamodb scan --table-name LambdaInGoUser --endpoint-url=http://localhost:4566 --profile local
+
+//logs
+aws --endpoint-url=http://localhost:4566 logs describe-log-groups --profile local
+
+aws --endpoint-url=http://localhost:4566 logs describe-log-streams --log-group-name /aws/lambda/go-serverless-api --profile local
+
+
+ aws --endpoint-url=http://localhost:4566 logs get-log-events --log-group-name /aws/lambda/go-serverless-api --log-stream-name '2022/03/24/[LATEST]e60de935' --profile local
 ```

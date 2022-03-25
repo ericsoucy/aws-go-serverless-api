@@ -2,9 +2,11 @@ package user
 
 import (
   "encoding/json"
+  "fmt"
   "errors"
   "github.com/aws/aws-lambda-go/events"
   "github.com/aws/aws-sdk-go/aws"
+  "github.com/aws/aws-sdk-go/aws/awserr"
   "github.com/aws/aws-sdk-go/service/dynamodb"
   "github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
   "github.com/aws/aws-sdk-go/service/dynamodb/dynamodbiface"
@@ -100,6 +102,30 @@ func CreateUser(req events.APIGatewayProxyRequest, tableName string, dynaClient 
 	_, err = dynaClient.PutItem(input)
 
 	if err != nil {
+		if aerr, ok := err.(awserr.Error); ok {
+			switch aerr.Code() {
+			case dynamodb.ErrCodeConditionalCheckFailedException:
+				fmt.Println(dynamodb.ErrCodeConditionalCheckFailedException, aerr.Error())
+			case dynamodb.ErrCodeProvisionedThroughputExceededException:
+				fmt.Println(dynamodb.ErrCodeProvisionedThroughputExceededException, aerr.Error())
+			case dynamodb.ErrCodeResourceNotFoundException:
+				fmt.Println(dynamodb.ErrCodeResourceNotFoundException, aerr.Error())
+			case dynamodb.ErrCodeItemCollectionSizeLimitExceededException:
+				fmt.Println(dynamodb.ErrCodeItemCollectionSizeLimitExceededException, aerr.Error())
+			case dynamodb.ErrCodeTransactionConflictException:
+				fmt.Println(dynamodb.ErrCodeTransactionConflictException, aerr.Error())
+			case dynamodb.ErrCodeRequestLimitExceeded:
+				fmt.Println(dynamodb.ErrCodeRequestLimitExceeded, aerr.Error())
+			case dynamodb.ErrCodeInternalServerError:
+				fmt.Println(dynamodb.ErrCodeInternalServerError, aerr.Error())
+			default:
+				fmt.Println(aerr.Error())
+			}
+		} else {
+			// Print the error, cast err to awserr.Error to get the Code and
+			// Message from an error.
+			fmt.Println(err.Error())
+		}
 		return nil, errors.New(ErrorCouldNotDynamoPutItem)
 	}
 
