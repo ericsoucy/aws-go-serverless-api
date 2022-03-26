@@ -1,7 +1,7 @@
 package main
 
 import (
-"os"
+//"os"
 "github.com/ericsoucy/aws-go-serverless-api/pkg/handlers"
 "github.com/aws/aws-lambda-go/events"
 "github.com/aws/aws-lambda-go/lambda"
@@ -16,9 +16,10 @@ var (
 )
 
 func main() {
-	region := os.Getenv("AWS_REGION")
+	region := "ca-central-1" //os.Getenv("AWS_REGION")
 	awsSession, err := session.NewSession(&aws.Config{
-		Region: aws.String(region)}, )
+		Region: aws.String(region),//os.Getenv("LOCALSTACK_HOSTNAME") 
+		Endpoint: aws.String("http://localhost:4566")}, )
 	if err!=nil {
 		return
 	}

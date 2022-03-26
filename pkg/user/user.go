@@ -102,31 +102,33 @@ func CreateUser(req events.APIGatewayProxyRequest, tableName string, dynaClient 
 	_, err = dynaClient.PutItem(input)
 
 	if err != nil {
+		var errString string
 		if aerr, ok := err.(awserr.Error); ok {
 			switch aerr.Code() {
 			case dynamodb.ErrCodeConditionalCheckFailedException:
-				fmt.Println(dynamodb.ErrCodeConditionalCheckFailedException, aerr.Error())
+				errString = fmt.Sprintln(dynamodb.ErrCodeConditionalCheckFailedException, aerr.Error())
+				//fmt.Println(dynamodb.ErrCodeConditionalCheckFailedException, aerr.Error())
 			case dynamodb.ErrCodeProvisionedThroughputExceededException:
-				fmt.Println(dynamodb.ErrCodeProvisionedThroughputExceededException, aerr.Error())
+				errString = fmt.Sprintln(dynamodb.ErrCodeProvisionedThroughputExceededException, aerr.Error())
 			case dynamodb.ErrCodeResourceNotFoundException:
-				fmt.Println(dynamodb.ErrCodeResourceNotFoundException, aerr.Error())
+				errString = fmt.Sprintln(dynamodb.ErrCodeResourceNotFoundException, aerr.Error())
 			case dynamodb.ErrCodeItemCollectionSizeLimitExceededException:
-				fmt.Println(dynamodb.ErrCodeItemCollectionSizeLimitExceededException, aerr.Error())
+				errString = fmt.Sprintln(dynamodb.ErrCodeItemCollectionSizeLimitExceededException, aerr.Error())
 			case dynamodb.ErrCodeTransactionConflictException:
-				fmt.Println(dynamodb.ErrCodeTransactionConflictException, aerr.Error())
+				errString = fmt.Sprintln(dynamodb.ErrCodeTransactionConflictException, aerr.Error())
 			case dynamodb.ErrCodeRequestLimitExceeded:
-				fmt.Println(dynamodb.ErrCodeRequestLimitExceeded, aerr.Error())
+				errString = fmt.Sprintln(dynamodb.ErrCodeRequestLimitExceeded, aerr.Error())
 			case dynamodb.ErrCodeInternalServerError:
-				fmt.Println(dynamodb.ErrCodeInternalServerError, aerr.Error())
+				errString = fmt.Sprintln(dynamodb.ErrCodeInternalServerError, aerr.Error())
 			default:
-				fmt.Println(aerr.Error())
+				errString = fmt.Sprintln(aerr.Error())
 			}
 		} else {
 			// Print the error, cast err to awserr.Error to get the Code and
 			// Message from an error.
-			fmt.Println(err.Error())
+			errString = fmt.Sprintln(err.Error())
 		}
-		return nil, errors.New(ErrorCouldNotDynamoPutItem)
+		return nil, errors.New(ErrorCouldNotDynamoPutItem + errString)
 	}
 
 	return &u, nil

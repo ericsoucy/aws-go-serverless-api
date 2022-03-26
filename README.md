@@ -28,6 +28,9 @@ podman run --rm -it -p 4566:4566 -p 4571:4571 localstack/localstack
 // to use network host
 podman run --rm -it -p 4566:4566 -p 4571:4571 --network host localstack/localstack
 
+// to make this run lambda that calls dynamodb
+podman run --rm -it -p 4566:4566 -p 4571:4571 localstack/localstack -e DEFAULT_REGION=ca-central-1 -e AWS_DEFAULT_REGION=ca-central-1 -e AWS_SECRET_ACCESS_KEY = "test" -e AWS_ACCESS_KEY_ID = "test"
+
 //check
 curl http://localhost:4566/health | jq
 ```
@@ -63,7 +66,7 @@ aws --endpoint-url=http://localhost:4566 apigateway get-resources --rest-api-id 
 
 curl -vvvv http://localhost:4566/restapis/ns241xb2xd/test/_user_request_/
 
-curl -vvvv --header "Content-Type: application/json" --request POST --data '{"email": "totot@toto.com", "firstName": "toto", "lastName":"toto"}' http://localhost:4566/restapis/ns241xb2xd/test/_user_request_/
+curl -vvvv --header "Content-Type: application/json" --request POST --data '{"email": "totot@toto.com", "firstName": "toto", "lastName":"toto"}' http://localhost:4566/restapis/qxkf29gdo8/test/_user_request_/
 
 //dynamodb
 aws dynamodb list-tables --endpoint-url=http://localhost:4566 --profile local
