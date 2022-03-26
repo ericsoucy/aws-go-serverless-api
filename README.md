@@ -68,6 +68,10 @@ curl -vvvv http://localhost:4566/restapis/ns241xb2xd/test/_user_request_/
 
 curl -vvvv --header "Content-Type: application/json" --request POST --data '{"email": "totot@toto.com", "firstName": "toto", "lastName":"toto"}' http://localhost:4566/restapis/qxkf29gdo8/test/_user_request_/
 
+curl -vvvv http://localhost:4566/restapis/1v1mgbw7pc/test/_user_request_/?email\=toto@toto.com
+
+curl -vvvv --header "Content-Type: application/json" --request PUT --data '{"email": "totot@toto.com", "firstName": "titi", "lastName":"titi"}' http://localhost:4566/restapis/qxkf29gdo8/test/_user_request_/
+
 //dynamodb
 aws dynamodb list-tables --endpoint-url=http://localhost:4566 --profile local
 aws dynamodb scan --table-name LambdaInGoUser --endpoint-url=http://localhost:4566 --profile local
